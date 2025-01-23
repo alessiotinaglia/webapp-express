@@ -20,30 +20,29 @@ function show(req, res) {
     if (isNaN(id)) {
         return res.status(400).json({ error: "ID non valido" });
     }
-    const sql = "SELECT * FROM movies WHERE `id` = ?";
-    connection.query(sql, [id], (error, results) => {
+    // film
+    const sqlMovie = "SELECT * FROM movies WHERE `id` = ?";
+    connection.query(sqlMovie, [id], (error, results) => {
         if (error) {
             return res.status(500).json({ error: "Errore nella chiamata al database" });
         }
-
         if (results.length === 0) {
-            return res.status(404).json({ error: "Post non trovato" });
+            return res.status(404).json({ error: "Film non trovato" });
         }
-        res.json(results[0]);
+        const movie = results[0];
 
-        // per le recensioni 
+        // Recensioni
         const sqlReviews = "SELECT * FROM `reviews` WHERE `movie_id` = ?";
         connection.query(sqlReviews, [id], (reviewError, reviewResults) => {
             if (reviewError) {
                 return res.status(500).json({ error: "Errore nella chiamata al database per le recensioni" });
             }
-
             movie.reviews = reviewResults;
-
-            res.json({ success: true, movie });
+            res.json({ success: true, data: movie });
         });
     });
 }
+
 // Create - Store - crea uno nuovo
 function store(req, res) {
 
