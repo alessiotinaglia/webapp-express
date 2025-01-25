@@ -7,7 +7,7 @@ function index(req, res) {
         if (error) { return res.status(500).json({ error: "errore nella chiamata" }) }
         let data = results;
         const response = {
-            totalCount: results.lengt,
+            totalCount: results.length,
             data,
         }
         res.json(response);
@@ -72,7 +72,7 @@ function destroy(req, res) {
             return res.status(404).json({ error: 'Post non trovato' });
         }
 
-        const deleteSql = 'DELETE FROM posts WHERE id = ?';
+        const deleteSql = 'DELETE FROM movies WHERE id = ?';
         connection.query(deleteSql, [id], (deleteErr) => {
             if (deleteErr) {
                 return res.status(500).json({ error: "Errore durante l'eliminazione" });
