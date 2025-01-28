@@ -48,6 +48,23 @@ function store(req, res) {
 
 };
 
+function storeReviews(req, res) {
+    const { id } = req.params;
+    const { text, name, vote } = req.body;
+    const sql =
+        "INSERT INTO reviews (text, name, vote, movie_id) VALUES (?, ?, ?, ?)";
+
+    connection.query(sql, [text, name, vote, id], (err, results) => {
+        if (err) {
+            console.error("Errore SQL:", err);
+            return res.status(500).json({ error: "Database query failed" });
+        }
+        console.log("Recensione aggiunta:", results);
+        res.status(201).json({ message: "Review added", id: results.insertId });
+    });
+
+};
+
 // Update totale - Update - Modifica 
 function update(req, res) {
 
@@ -72,7 +89,7 @@ function destroy(req, res) {
             return res.status(404).json({ error: 'Post non trovato' });
         }
 
-        const deleteSql = 'DELETE FROM movies WHERE id = ?';
+        const deleteSql = 'DELETE FROM posts WHERE id = ?';
         connection.query(deleteSql, [id], (deleteErr) => {
             if (deleteErr) {
                 return res.status(500).json({ error: "Errore durante l'eliminazione" });
@@ -84,4 +101,4 @@ function destroy(req, res) {
 }
 
 
-export { index, show, store, update, modify, destroy };
+export { index, show, store, storeReviews, update, modify, destroy };
