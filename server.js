@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import 'dotenv/config';
 import "./connection.js";
-import postsRouter from "./router/posts.js";
+import posts from "./router/posts.js";
 import errorsHandler from "./middlewares/errorsHandler.js";
 import notFound from "./middlewares/notFound.js";
 
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
     res.send("Benvenuto nell'API del blog!");
 });
 
-app.use("/movies", postsRouter);
+app.use("/movies", posts);
 app.use(errorsHandler);
 app.use(notFound);
 

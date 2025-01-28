@@ -47,7 +47,7 @@ function show(req, res) {
 function store(req, res) {
 
 };
-
+// salvataggio reviews del form
 function storeReviews(req, res) {
     const { id } = req.params;
     const { text, name, vote } = req.body;
